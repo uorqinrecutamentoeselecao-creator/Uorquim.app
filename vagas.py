@@ -54,7 +54,7 @@ def safe(v):
 # =========================
 def buscar_candidato_por_cpf(cpf):
 
-    planilha = conectar_planilha().worksheet("Sheet1")
+    planilha = conectar_planilha().worksheet("sheet1")
     dados = planilha.get_all_records()
 
     cpf = cpf.replace(".", "").replace("-", "")
