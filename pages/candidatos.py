@@ -8,6 +8,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 
 st.set_page_config(page_title="Uorquin", layout="centered")
+st.logo("logo.png")
 
 st.image("logo.png", width=220)
 st.markdown("<h3 style='text-align:center'>Crie seu currículo profissional em poucos minutos</h3>", unsafe_allow_html=True)
