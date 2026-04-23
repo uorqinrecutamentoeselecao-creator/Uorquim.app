@@ -15,6 +15,8 @@ if "vaga" not in st.session_state:
 
 st.set_page_config(page_title="Portal de Vagas", layout="wide")
 st.logo("logo.png")
+st.sidebar.markdown("## 🚀 Uorquin")
+st.sidebar.markdown("---")
 
 # =========================
 # HEADER
