@@ -14,6 +14,7 @@ if "vaga" not in st.session_state:
     st.session_state["vaga"] = None
 
 st.set_page_config(page_title="Portal de Vagas", layout="wide")
+st.logo("logo.png")
 
 # =========================
 # HEADER
