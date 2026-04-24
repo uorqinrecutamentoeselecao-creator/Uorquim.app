@@ -1,33 +1,42 @@
 import streamlit as st
 
 # 1. Configuração de Página
-st.set_page_config(page_title="Üorquin - Portal", layout="wide")
+st.set_page_config(page_title="Üorquin - Portal", layout="wide", initial_sidebar_state="expanded")
 
-# 2. CSS Avançado para Curvas Orgânicas e Unificação de Cores
+# 2. CSS Avançado e Estabilizado (Limpeza Total e Integração de Imagem)
 st.markdown("""
     <style>
         /* Limpeza de cabeçalho e margens */
         header {visibility: hidden;}
         .block-container {
             padding-top: 1rem !important;
-            margin-top: -2rem !important;
+            margin-top: -3rem !important;
         }
 
-        /* SIDEBAR: Remove textos residuais e ajusta logo */
+        /* AJUSTE 2: Limpeza Total da Logo (Remoção de Bordas e Sombra) */
         section[data-testid="stSidebar"] .stMarkdown {
             display: none !important;
         }
         [data-testid="stSidebar"] img {
-            border-radius: 0px !important; /* Remove arredondamento da logo */
+            border-radius: 0px !important; /* Remove arredondamento */
+            box-shadow: none !important; /* Remove sombra */
+            background: transparent !important; /* Garante fundo transparente */
+            border: none !important; /* Remove qualquer borda */
             padding: 5px;
+            object-fit: contain;
         }
 
-        /* IMAGEM PRINCIPAL: Curvas Dinâmicas e Atuais */
+        /* AJUSTE 1: Integração de Imagem (Curvas Orgânicas e Posição mais baixa) */
         .stImage img {
             border-radius: 60px 20px 80px 20px !important; /* Curvas orgânicas */
             box-shadow: 20px 20px 50px rgba(0,0,0,0.08);
             object-fit: cover;
             transition: transform 0.5s ease;
+            
+            /* Faz a imagem descer e ocupar mais espaço vertical */
+            margin-top: 40px; 
+            height: 110vh !important;
+            width: 100% !important;
         }
         .stImage img:hover {
             transform: scale(1.01);
@@ -47,8 +56,7 @@ st.markdown("""
             margin-bottom: 10px;
         }
 
-        /* BOTÕES: Unificação de cor (Estilo "Cadastrar Currículo") */
-        /* Forçamos os botões a serem brancos com borda cinza, mudando apenas no hover */
+        /* BOTÕES: Unificação de cor (Clean SaaS) */
         .stButton > button {
             background-color: white !important;
             color: #1E293B !important;
@@ -71,13 +79,13 @@ st.markdown("""
 
 # 3. Sidebar (Menu)
 with st.sidebar:
-    st.image("logo.png", width=160) # Aumentado levemente para melhor qualidade
+    st.image("logo.png", width=160) # Ajustado para manter a qualidade
     st.markdown("<br>", unsafe_allow_html=True)
     st.page_link("portal.py", label="Portal", icon="🏠")
     st.page_link("pages/candidatos.py", label="Candidatos", icon="👤")
     st.page_link("pages/vagas.py", label="Vagas", icon="💼")
 
-# 4. Conteúdo Superior
+# 4. Conteúdo Superior (Alinhado com a nova imagem)
 col_txt, col_img = st.columns([1, 1.1])
 
 with col_txt:
@@ -88,7 +96,7 @@ with col_txt:
 with col_img:
     st.image("capa_prof.png", use_container_width=True)
 
-# 5. Cards de Ação (Unificados)
+# 5. Seção de Ações (Cards que se integram com a base da imagem)
 st.markdown("<br><br><b>O que você deseja fazer hoje?</b>", unsafe_allow_html=True)
 c1, c2 = st.columns(2)
 
@@ -109,6 +117,5 @@ with c2:
             <p style='color: #64748B;'>Encontre agora a oportunidade que combina com você.</p>
         </div>
     """, unsafe_allow_html=True)
-    # Agora o botão de vagas segue o mesmo padrão visual (branco/clean) do anterior
     if st.button("Explorar Vagas 🔍", key="btn_vagas", use_container_width=True):
         st.switch_page("pages/vagas.py")
