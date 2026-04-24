@@ -7,18 +7,33 @@ from oauth2client.service_account import ServiceAccountCredentials
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 
+# =========================
 # CONFIG
+# =========================
 st.set_page_config(page_title="Uorquin", layout="wide")
 
 # =========================
-# CSS PROFISSIONAL
+# CSS GLOBAL
 # =========================
 st.markdown("""
 <style>
 header {visibility: hidden;}
-body {background-color: #F8FAFC;}
 
-.main-container {
+body {
+    background-color: #F8FAFC;
+}
+
+/* SIDEBAR */
+[data-testid="stSidebar"] {
+    background-color: #FFFFFF;
+}
+
+.logo {
+    padding: 20px;
+}
+
+/* CARD */
+.container {
     max-width: 1000px;
     margin: auto;
 }
@@ -28,9 +43,10 @@ body {background-color: #F8FAFC;}
     padding: 40px;
     border-radius: 20px;
     border: 1px solid #E2E8F0;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
+/* TITULOS */
 .title {
     font-size: 28px;
     font-weight: 700;
@@ -42,7 +58,8 @@ body {background-color: #F8FAFC;}
     margin-bottom: 20px;
 }
 
-.progress-bar {
+/* PROGRESS BAR */
+.progress {
     height: 8px;
     background: #E2E8F0;
     border-radius: 10px;
@@ -55,8 +72,9 @@ body {background-color: #F8FAFC;}
     border-radius: 10px;
 }
 
+/* BOTÕES */
 .stButton>button {
-    height: 50px;
+    height: 48px;
     border-radius: 12px;
     font-weight: 600;
 }
@@ -67,16 +85,24 @@ body {background-color: #F8FAFC;}
 }
 
 .secondary button {
-    background-color: white;
     border: 1px solid #CBD5E1;
+    background: white;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# HEADER
-st.markdown("<div class='main-container'>", unsafe_allow_html=True)
-st.image("logo.png", width=180)
-st.markdown("<h2 style='text-align:center'>Crie seu currículo profissional</h2>", unsafe_allow_html=True)
+# =========================
+# SIDEBAR
+# =========================
+with st.sidebar:
+    st.image("logo.png", width=160)
+
+    st.page_link("portal.py", label="Portal", icon="🏠")
+    st.page_link("pages/candidatos.py", label="Candidatos", icon="👤")
+    st.page_link("pages/vagas.py", label="Vagas", icon="💼")
+
+    st.markdown("---")
+    st.markdown("Conectando pessoas a oportunidades")
 
 # =========================
 # LISTAS
@@ -92,6 +118,9 @@ def buscar_cidades(uf):
         return sorted([c["nome"] for c in r.json()])
     return []
 
+# =========================
+# FORMATADORES
+# =========================
 def formatar_cpf(cpf):
     cpf = re.sub(r'\D', '', cpf)
     if len(cpf) >= 11:
@@ -141,11 +170,14 @@ if "dados" not in st.session_state:
     st.session_state.dados = {}
 
 # =========================
-# PROGRESSO
+# PROGRESS
 # =========================
 progress = (st.session_state.step / 5) * 100
+
+st.markdown("<div class='container'>", unsafe_allow_html=True)
+
 st.markdown(f"""
-<div class="progress-bar">
+<div class="progress">
     <div class="progress-fill" style="width:{progress}%"></div>
 </div>
 """, unsafe_allow_html=True)
@@ -157,58 +189,65 @@ if st.session_state.step == 1:
 
     st.markdown("<div class='card'>", unsafe_allow_html=True)
     st.markdown("<div class='title'>Dados Pessoais</div>", unsafe_allow_html=True)
-    st.markdown("<div class='subtitle'>Preencha suas informações básicas</div>", unsafe_allow_html=True)
+    st.markdown("<div class='subtitle'>Preencha suas informações</div>", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
 
     with col1:
         nome = st.text_input("Nome Completo")
+        sexo = st.selectbox("Sexo", ["Masculino", "Feminino"])
+        estado_civil = st.selectbox("Estado Civil", ["Solteiro", "Casado", "Divorciado"])
         cpf = formatar_cpf(st.text_input("CPF"))
+        idade = st.number_input("Idade", 0, 100)
         telefone = formatar_telefone(st.text_input("Telefone"))
         email = st.text_input("Email")
 
     with col2:
+        endereco = st.text_input("Endereço")
         estado = st.selectbox("Estado", estados)
         cidade = st.selectbox("Cidade", buscar_cidades(estado))
         cep = formatar_cep(st.text_input("CEP"))
+        viagens = st.selectbox("Disponibilidade", ["Sim", "Não"])
+        tipo = st.selectbox("Tipo", ["CLT", "PJ"])
+        salario = st.text_input("Pretensão")
         area = st.text_input("Área")
 
-    col1, col2, col3 = st.columns([1,2,1])
+    col1, col2 = st.columns(2)
 
-    with col2:
-        if st.button("Continuar ➡️", use_container_width=True):
-            if not validar_cpf_simples(cpf):
-                st.error("CPF inválido")
-            elif not validar_email(email):
-                st.error("Email inválido")
-            else:
-                st.session_state.dados["pessoais"] = {"nome": nome}
-                st.session_state.step = 2
-                st.rerun()
+    if col1.button("⬅️"):
+        pass
+
+    if col2.button("Continuar ➡️", use_container_width=True):
+        if not validar_cpf_simples(cpf):
+            st.error("CPF inválido")
+        elif not validar_email(email):
+            st.error("Email inválido")
+        else:
+            st.session_state.dados["pessoais"] = locals()
+            st.session_state.step = 2
+            st.rerun()
 
     st.markdown("</div>", unsafe_allow_html=True)
 
 # =========================
-# ETAPA FINAL (SIMPLIFICADA)
+# ETAPA FINAL
 # =========================
 elif st.session_state.step == 2:
 
     st.markdown("<div class='card'>", unsafe_allow_html=True)
-    st.markdown("<div class='title'>Finalização</div>", unsafe_allow_html=True)
+    st.markdown("<div class='title'>Finalizar</div>", unsafe_allow_html=True)
 
-    objetivo = st.text_area("Objetivo profissional")
+    objetivo = st.text_area("Objetivo")
 
     col1, col2 = st.columns(2)
 
-    with col1:
-        if st.button("⬅️ Voltar"):
-            st.session_state.step = 1
-            st.rerun()
+    if col1.button("⬅️ Voltar"):
+        st.session_state.step = 1
+        st.rerun()
 
-    with col2:
-        if st.button("Finalizar", use_container_width=True):
-            salvar_dados(st.session_state.dados)
-            st.success("Cadastro realizado com sucesso!")
+    if col2.button("Finalizar", use_container_width=True):
+        salvar_dados(st.session_state.dados)
+        st.success("Cadastro realizado com sucesso!")
 
     st.markdown("</div>", unsafe_allow_html=True)
 
