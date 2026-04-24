@@ -2,15 +2,12 @@ import streamlit as st
 
 st.set_page_config(layout="wide")
 
-# CSS PESADO (NÍVEL PROFISSIONAL)
+# CSS
 st.markdown("""
 <style>
 header {visibility: hidden;}
 .block-container {padding-top: 2rem;}
-
-body {
-    background-color: #F8FAFC;
-}
+body {background-color: #F8FAFC;}
 
 /* HERO */
 .hero {
@@ -31,9 +28,7 @@ body {
     line-height: 1.1;
 }
 
-.hero span {
-    color: #22C55E;
-}
+.hero span {color: #22C55E;}
 
 .hero p {
     color: #64748B;
@@ -54,7 +49,6 @@ body {
     padding: 12px 20px;
     border-radius: 12px;
     font-weight: 600;
-    cursor: pointer;
     text-align: center;
 }
 
@@ -63,12 +57,7 @@ body {
     padding: 12px 20px;
     border-radius: 12px;
     font-weight: 600;
-    cursor: pointer;
-}
-
-/* IMAGEM */
-.hero img {
-    border-radius: 20px;
+    text-align: center;
 }
 
 /* STATS */
@@ -84,10 +73,6 @@ body {
     padding: 20px;
     border-radius: 16px;
     text-align: center;
-}
-
-.stat-box b {
-    font-size: 20px;
 }
 
 /* AÇÕES */
@@ -114,7 +99,6 @@ body {
     border-radius: 12px;
     text-align: center;
     font-weight: 600;
-    cursor: pointer;
     background: white;
 }
 
@@ -126,41 +110,36 @@ body {
     background: white;
     color: #64748B;
 }
-
-/* HOVER */
-.action-btn:hover {
-    background: #F8FAFC;
-}
-
-.btn-primary:hover {
-    opacity: 0.9;
-}
 </style>
 """, unsafe_allow_html=True)
 
-# HERO
-st.markdown("""
-<div class="hero">
-    <div class="hero-text">
-        <h1>
-            Conectando <span>talentos</span><br>
-            às melhores oportunidades
-        </h1>
-        <p>
-            A plataforma inteligente que une profissionais qualificados às empresas.
-        </p>
+# HERO COM COLUNAS (EVITA BUG)
+col1, col2 = st.columns([1.2, 1])
 
-        <div class="btn-group">
-            <div class="btn-primary">Cadastrar currículo</div>
-            <div class="btn-secondary">Buscar vagas</div>
-        </div>
-    </div>
+with col1:
+    st.markdown("""
+    <h1>
+        Conectando <span style='color:#22C55E;'>talentos</span><br>
+        às melhores oportunidades
+    </h1>
+    """, unsafe_allow_html=True)
 
-    <div>
-        <img src="capa_prof.png" width="420">
-    </div>
-</div>
-""", unsafe_allow_html=True)
+    st.markdown("""
+    <p style='color:#64748B; font-size:18px;'>
+        A plataforma inteligente que une profissionais qualificados às empresas.
+    </p>
+    """, unsafe_allow_html=True)
+
+    b1, b2 = st.columns(2)
+
+    with b1:
+        st.markdown("<div class='btn-primary'>Cadastrar currículo</div>", unsafe_allow_html=True)
+
+    with b2:
+        st.markdown("<div class='btn-secondary'>Buscar vagas</div>", unsafe_allow_html=True)
+
+with col2:
+    st.image("capa_prof.png", use_container_width=True)
 
 # STATS
 st.markdown("""
@@ -173,22 +152,14 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # AÇÕES
-st.markdown('<div class="section-title">O que você deseja fazer hoje?</div>', unsafe_allow_html=True)
+st.markdown("<div class='section-title'>O que você deseja fazer hoje?</div>", unsafe_allow_html=True)
 
-st.markdown("""
-<div class="actions">
-    <div class="action-card">
-        <div class="action-btn">📄 Cadastrar Currículo</div>
-        <div class="action-desc">
-            Destaque seu perfil para recrutadores e aumente suas chances.
-        </div>
-    </div>
+col1, col2 = st.columns(2)
 
-    <div class="action-card">
-        <div class="action-btn">🔎 Buscar Vagas</div>
-        <div class="action-desc">
-            Encontre oportunidades filtradas por sua área de atuação.
-        </div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+with col1:
+    st.markdown("<div class='action-btn'>📄 Cadastrar Currículo</div>", unsafe_allow_html=True)
+    st.markdown("<div class='action-desc'>Destaque seu perfil para recrutadores.</div>", unsafe_allow_html=True)
+
+with col2:
+    st.markdown("<div class='action-btn'>🔎 Buscar Vagas</div>", unsafe_allow_html=True)
+    st.markdown("<div class='action-desc'>Encontre oportunidades filtradas.</div>", unsafe_allow_html=True)
