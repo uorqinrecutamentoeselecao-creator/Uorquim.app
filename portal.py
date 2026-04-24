@@ -86,7 +86,7 @@ with col_txt:
     st.markdown("<p style='font-size: 19px; color: #64748B;'>A plataforma inteligente que une profissionais qualificados às empresas que buscam excelência.</p>", unsafe_allow_html=True)
 
 with col_img:
-    st.image("capa_prof.jpg", use_container_width=True)
+    st.image("capa_prof.png", use_container_width=True)
 
 # 5. Cards de Ação (Unificados)
 st.markdown("<br><br><b>O que você deseja fazer hoje?</b>", unsafe_allow_html=True)
