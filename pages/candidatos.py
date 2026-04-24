@@ -409,14 +409,26 @@ with left:
         if c1.button("⬅️ Voltar"):
             st.session_state.step = 4; st.rerun()
 
-        if c2.button("Finalizar"):
-            st.session_state.dados["objetivo"] = objetivo
-            salvar_dados(st.session_state.dados)
-            pdf = gerar_pdf(st.session_state.dados)
-            st.success("Cadastro realizado com sucesso!")
+       if c2.button("Finalizar"):
+    st.session_state.dados["objetivo"] = objetivo
 
-            with open(pdf, "rb") as f:
-                st.download_button("📄 Baixar currículo", f)
+    salvar_dados(st.session_state.dados)
+
+    try:
+        pdf = gerar_pdf(st.session_state.dados)
+
+        st.success("Cadastro realizado com sucesso!")
+
+        with open(pdf, "rb") as f:
+            st.download_button(
+                "📄 Baixar currículo",
+                f,
+                file_name="curriculo.pdf",
+                mime="application/pdf"
+            )
+
+    except Exception as e:
+        st.error(f"Erro ao gerar PDF: {e}")
 
     st.markdown('</div>', unsafe_allow_html=True)
 
