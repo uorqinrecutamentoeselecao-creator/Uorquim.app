@@ -397,9 +397,9 @@ with left:
             st.session_state.dados["cursos"] = cursos
             st.session_state.step = 5; st.rerun()
 
-    # =========================
-    # ETAPA FINAL
-    # =========================
+# =========================
+# ETAPA FINAL
+# =========================
 elif st.session_state.step == 5:
 
     st.subheader("🎯 Objetivo")
@@ -432,7 +432,6 @@ elif st.session_state.step == 5:
 
         except Exception as e:
             st.error(f"Erro ao gerar PDF: {e}")
-
     st.markdown('</div>', unsafe_allow_html=True)
 
 # =========================
