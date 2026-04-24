@@ -98,7 +98,7 @@ with col_txt:
 
 with col_img:
     # Imagem posicionada mais abaixo
-    st.image("capa_prof.jpg", use_container_width=True)
+    st.image("capa_prof.png", use_container_width=True)
 
 # 5. Seção Inferior
 st.markdown("<br><br><b>O que você deseja fazer hoje?</b>", unsafe_allow_html=True)
