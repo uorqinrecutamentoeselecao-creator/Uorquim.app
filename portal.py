@@ -3,131 +3,104 @@ import streamlit as st
 # 1. Configuração de Página
 st.set_page_config(page_title="Üorquin - Portal", layout="wide", initial_sidebar_state="expanded")
 
-# 2. CSS de Alta Precisão (Ajustado para o novo layout da sidebar)
+# 2. CSS de Alta Precisão para organizar a Sidebar
 st.markdown("""
     <style>
-        /* Limpeza total do topo */
+        /* Limpeza do topo e margens */
         header {visibility: hidden;}
-        .block-container {
-            padding-top: 0rem !important;
-            margin-top: -2.5rem !important;
-        }
+        .block-container { padding-top: 0rem !important; }
 
-        /* --- ESTILIZAÇÃO DA SIDEBAR (IGUAL À IMAGEM) --- */
+        /* --- ORGANIZAÇÃO DA SIDEBAR --- */
         
-        /* Cor de fundo da sidebar */
+        /* Fundo branco e largura da sidebar */
         [data-testid="stSidebar"] {
-            background-color: #ffffff;
+            background-color: #ffffff !important;
+            border-right: 1px solid #f0f0f0;
         }
 
-        /* Estilo dos links de página na sidebar */
-        [data-testid="stSidebarNav"] ul {
-            padding-top: 20px;
+        /* Ajuste do container da logo para não encavalar */
+        [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
+            gap: 0rem !important;
+            padding-top: 1rem;
         }
 
-        /* Customização dos links (Portal, Candidatos, Vagas) */
+        /* Estilo da Logo */
+        .logo-container {
+            padding: 20px 20px 40px 20px;
+        }
+
+        /* Estilização dos Links (Menu) */
+        /* Remove o padding padrão do nav do streamlit */
+        [data-testid="stSidebarNav"] {
+            padding-top: 0rem !important;
+        }
+
+        /* Ajusta cada item do menu */
         div[data-testid="stSidebarNav"] ul li div a {
-            font-size: 18px !important;
+            padding: 12px 20px !important;
+            margin: 4px 15px !important;
+            border-radius: 12px !important;
+            font-size: 16px !important;
             font-weight: 500 !important;
-            color: #1E293B !important;
-            padding: 10px 15px !important;
-            border-radius: 10px !important;
-            margin-bottom: 5px !important;
+            color: #334155 !important;
+            transition: all 0.2s;
         }
 
-        /* Efeito de item selecionado (estilo Candidatos na imagem) */
+        /* Efeito de item Selecionado/Ativo (Fundo cinza claro arredondado) */
         div[data-testid="stSidebarNav"] ul li div a[aria-current="page"] {
-            background-color: #F1F3F9 !important; /* Cinza claro da imagem */
-            color: #1E293B !important;
+            background-color: #F1F5F9 !important;
+            color: #0F172A !important;
         }
 
-        /* Linha divisória fina */
-        [data-testid="stSidebar"] hr {
-            margin-top: 2rem;
-            margin-bottom: 2rem;
-            opacity: 0.3;
+        /* Hover para melhorar a experiência */
+        div[data-testid="stSidebarNav"] ul li div a:hover {
+            background-color: #F8FAFC !important;
         }
 
-        /* Texto de rodapé na sidebar */
-        .sidebar-footer {
+        /* Linha divisória fina e frase de efeito */
+        .sidebar-footer-container {
+            position: fixed;
+            bottom: 30px;
+            width: 100%;
+            padding: 0 30px;
+        }
+        
+        .footer-line {
+            border-top: 1px solid #E2E8F0;
+            margin-bottom: 20px;
+            width: 80%;
+        }
+
+        .footer-text {
+            color: #94A3B8;
             font-size: 14px;
-            color: #8E9AAF;
-            text-align: left;
-            padding: 0 20px;
-            margin-top: 40px;
+            line-height: 1.4;
         }
 
-        /* Ajuste da Logo na Sidebar */
-        [data-testid="stSidebar"] [data-testid="stImage"] {
-            text-align: left;
-            padding-left: 10px;
-            margin-bottom: -20px;
-        }
-
-        /* --- RESTANTE DO LAYOUT --- */
-        .main-title {
-            font-size: 40px;
-            font-weight: 700;
-            line-height: 1.1;
-            color: #1E293B;
-            max-width: 460px; 
-            margin-bottom: 18px;
-        }
-
-        .stImage img {
-            border-radius: 60px 20px 80px 20px !important;
-            box-shadow: 20px 20px 50px rgba(0,0,0,0.08);
-            margin-top: 130px !important; 
-        }
-
-        .custom-card {
-            background-color: white;
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid #F1F5F9;
-            height: 180px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        /* Esconder o ícone padrão de "setinha" do menu que o streamlit coloca às vezes */
+        [data-testid="stSidebarNav"] svg {
+            color: #64748B;
         }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. Sidebar
+# 3. Sidebar Organizada
 with st.sidebar:
-    # Logo
-    st.image("logo.png", width=160)
+    # Usando um container div para a logo para controlar o respiro (espaçamento)
+    st.markdown('<div class="logo-container">', unsafe_allow_html=True)
+    st.image("logo.png", width=160) # Ajuste o caminho da sua logo aqui
+    st.markdown('</div>', unsafe_allow_html=True)
     
-    # O Streamlit gera os links automaticamente se usar st.page_link ou páginas na pasta /pages
-    # Para ficar idêntico à imagem, usamos ícones simples:
+    # Navegação (O Streamlit cuida dos links se os arquivos estiverem na pasta /pages)
+    # Mas aqui garantimos que os nomes fiquem limpos
     st.page_link("portal.py", label="Portal", icon="🏠")
     st.page_link("pages/candidatos.py", label="Candidatos", icon="👤")
     st.page_link("pages/vagas.py", label="Vagas", icon="💼")
 
-    st.markdown("---")
-    st.markdown('<p class="sidebar-footer">Conectando pessoas a oportunidades</p>', unsafe_allow_html=True)
+    # Rodapé da Sidebar
+    st.markdown('<div style="margin-top: 40px; padding: 0 20px;"><hr style="opacity:0.3;"></div>', unsafe_allow_html=True)
+    st.markdown('<p style="padding: 0 25px; color: #94A3B8; font-size: 14px;">Conectando pessoas a oportunidades</p>', unsafe_allow_html=True)
 
-# 4. Layout Principal (Mantido do seu original)
-col_txt, col_img = st.columns([1, 1.1])
-
-with col_txt:
-    st.markdown("<br><br><br><br><br>", unsafe_allow_html=True)
-    st.markdown("<div class='main-title'>Conectando <span style='color: #22C55E;'>talentos</span> às melhores oportunidades</div>", unsafe_allow_html=True)
-    st.markdown("<p style='font-size: 20px; color: #64748B;'>A plataforma inteligente que une profissionais qualificados às empresas que buscam excelência.</p>", unsafe_allow_html=True)
-
-with col_img:
-    st.image("capa_prof.png", use_container_width=True)
-
-# 5. Seção Inferior
-st.markdown("<br><br><b>O que você deseja fazer hoje?</b>", unsafe_allow_html=True)
-c1, c2 = st.columns(2)
-
-with c1:
-    st.markdown('<div class="custom-card"><h3>📄 Cadastrar Currículo</h3><p style="color: #64748B;">Destaque seu perfil para recrutadores.</p></div>', unsafe_allow_html=True)
-    if st.button("Ir para Cadastro ➡️", key="btn_cad", use_container_width=True):
-        st.switch_page("pages/candidatos.py")
-
-with c2:
-    st.markdown('<div class="custom-card"><h3>🔎 Buscar Vagas</h3><p style="color: #64748B;">Encontre oportunidades na sua área.</p></div>', unsafe_allow_html=True)
-    if st.button("Explorar Vagas 🔍", key="btn_vagas", use_container_width=True):
-        st.switch_page("pages/vagas.py")
+# 4. Conteúdo Principal (Apenas para visualização)
+st.title("Conteúdo Principal")
+st.write("A barra lateral agora deve seguir o padrão de espaçamento da imagem.")
