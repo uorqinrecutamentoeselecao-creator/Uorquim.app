@@ -400,18 +400,18 @@ with left:
 # =========================
 # ETAPA FINAL
 # =========================
-elif st.session_state.step == 5:
+    elif st.session_state.step == 5:
 
-    st.subheader("🎯 Objetivo")
-    objetivo = st.text_area("Objetivo profissional")
+      st.subheader("🎯 Objetivo")
+       objetivo = st.text_area("Objetivo profissional")
 
-    c1, c2 = st.columns(2)
+      c1, c2 = st.columns(2)
 
-    if c1.button("⬅️ Voltar"):
+      if c1.button("⬅️ Voltar"):
         st.session_state.step = 4
         st.rerun()
 
-    if c2.button("Finalizar"):
+      if c2.button("Finalizar"):
 
         st.session_state.dados["objetivo"] = objetivo
 
