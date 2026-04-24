@@ -31,8 +31,8 @@ st.markdown("""
 
         /* TAREFA 2: TÍTULO EM DUAS LINHAS - Controle de largura máxima */
         .main-title {
-            font-size: 44px;
-            font-weight: 800;
+            font-size: 40px;
+            font-weight: 700;
             line-height: 1.1;
             color: #1E293B;
             /* Força a quebra para duas linhas */
@@ -46,7 +46,7 @@ st.markdown("""
             box-shadow: 20px 20px 50px rgba(0,0,0,0.08);
             
             /* Aumentado para descer mais na página */
-            margin-top: 110px !important; 
+            margin-top: 130px !important; 
         }
 
         /* Estilo dos Cards Inferiores */
