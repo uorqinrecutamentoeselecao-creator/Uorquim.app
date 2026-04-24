@@ -36,8 +36,8 @@ st.markdown("""
             line-height: 1.1;
             color: #1E293B;
             /* Força a quebra para duas linhas */
-            max-width: 480px; 
-            margin-bottom: 20px;
+            max-width: 460px; 
+            margin-bottom: 18px;
         }
 
         /* TAREFA 3: IMAGEM - Descer ainda mais e manter bordas modernas */
