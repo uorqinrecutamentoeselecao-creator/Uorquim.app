@@ -400,35 +400,38 @@ with left:
     # =========================
     # ETAPA FINAL
     # =========================
-    elif st.session_state.step == 5:
+elif st.session_state.step == 5:
 
-        st.subheader("🎯 Objetivo")
-        objetivo = st.text_area("Objetivo profissional")
+    st.subheader("🎯 Objetivo")
+    objetivo = st.text_area("Objetivo profissional")
 
-        c1, c2 = st.columns(2)
-        if c1.button("⬅️ Voltar"):
-            st.session_state.step = 4; st.rerun()
+    c1, c2 = st.columns(2)
 
-       if c2.button("Finalizar"):
-    st.session_state.dados["objetivo"] = objetivo
+    if c1.button("⬅️ Voltar"):
+        st.session_state.step = 4
+        st.rerun()
 
-    salvar_dados(st.session_state.dados)
+    if c2.button("Finalizar"):
 
-    try:
-        pdf = gerar_pdf(st.session_state.dados)
+        st.session_state.dados["objetivo"] = objetivo
 
-        st.success("Cadastro realizado com sucesso!")
+        salvar_dados(st.session_state.dados)
 
-        with open(pdf, "rb") as f:
-            st.download_button(
-                "📄 Baixar currículo",
-                f,
-                file_name="curriculo.pdf",
-                mime="application/pdf"
-            )
+        try:
+            pdf = gerar_pdf(st.session_state.dados)
 
-    except Exception as e:
-        st.error(f"Erro ao gerar PDF: {e}")
+            st.success("Cadastro realizado com sucesso!")
+
+            with open(pdf, "rb") as f:
+                st.download_button(
+                    "📄 Baixar currículo",
+                    f,
+                    file_name="curriculo.pdf",
+                    mime="application/pdf"
+                )
+
+        except Exception as e:
+            st.error(f"Erro ao gerar PDF: {e}")
 
     st.markdown('</div>', unsafe_allow_html=True)
 
