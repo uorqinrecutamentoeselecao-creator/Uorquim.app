@@ -1,131 +1,106 @@
 import streamlit as st
 
-# 1. Configuração inicial (Sempre a primeira linha)
-st.set_page_config(
-    page_title="Üorquin - Portal", 
-    layout="wide", 
-    initial_sidebar_state="expanded"
-)
+# 1. Configuração de Página
+st.set_page_config(page_title="Üorquin - Portal", layout="wide")
 
-# 2. CSS de Alta Performance (Limpeza e Dinamismo)
+# 2. CSS Avançado (Limpeza Total e Efeitos de Botão)
 st.markdown("""
     <style>
-        /* Remove o cabeçalho padrão e sobe todo o conteúdo */
-        [data-testid="stHeader"] {
-            display: none;
-        }
+        /* Remove o cabeçalho e limpa o topo */
+        header {visibility: hidden;}
         .block-container {
             padding-top: 1rem !important;
-            margin-top: -3rem !important;
-        }
-        
-        /* LIMPEZA TOTAL: Esconde linhas divisórias (hr) e quadrados indesejados */
-        hr {
-            display: none !important;
-        }
-        [data-testid="stVerticalBlock"] > div > div > div > hr {
-            display: none !important;
+            margin-top: -2rem !important;
         }
 
-        /* Sidebar Clean */
-        [data-testid="sidebar-nav-items"] {
+        /* ESCONDE O TEXTO <br> QUE REAPARECEU NA SIDEBAR */
+        section[data-testid="stSidebar"] .stMarkdown {
             display: none !important;
         }
-        [data-testid="stSidebar"] {
-            background-color: white !important;
-            border-right: 1px solid #F1F5F9;
+        /* Mas permite que a logo e os links apareçam */
+        section[data-testid="stSidebar"] [data-testid="stImage"], 
+        section[data-testid="stSidebar"] [data-testid="stPageLink"] {
+            display: block !important;
         }
 
-        /* Títulos e Tipografia */
-        .main-title {
-            color: #0F172A;
-            font-size: 44px;
-            font-weight: 800;
-            line-height: 1.1;
+        /* Ajuste Dinâmico da Imagem para ocupar mais espaço abaixo */
+        .stImage img {
+            border-radius: 20px !important;
+            box-shadow: 10px 10px 30px rgba(0,0,0,0.05);
+            max-height: 450px;
+            object-fit: cover;
+        }
+
+        /* Estilização dos Cards para evitar desconfiguração */
+        .custom-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid #E2E8F0;
+            height: 220px; /* Altura fixa para alinhar os botões */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             margin-bottom: 15px;
         }
-        .highlight { color: #22C55E; }
-        
-        /* Efeito de bordas dinâmicas na imagem */
-        .stImage img {
-            border-radius: 40px 10px 40px 10px !important;
-            box-shadow: 15px 15px 50px rgba(0,0,0,0.05);
-        }
 
-        /* Estilo dos Cards de Ação */
-        .action-card {
-            background-color: white;
-            padding: 24px;
-            border-radius: 16px;
-            border: 1px solid #E2E8F0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            margin-bottom: 10px;
+        /* Efeito de Cor no Botão ao passar o mouse (Hover) */
+        .stButton > button {
+            transition: all 0.3s ease !important;
+            border-radius: 8px !important;
+        }
+        .stButton > button:hover {
+            transform: scale(1.02);
+            filter: brightness(0.9);
+            border-color: #22C55E !important;
         }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. Sidebar (Menu Único)
+# 3. Sidebar Limpa
 with st.sidebar:
     st.image("logo.png", width=130)
-    st.markdown("<br>", unsafe_allow_html=True)
     st.page_link("portal.py", label="Portal", icon="🏠")
     st.page_link("pages/candidatos.py", label="Candidatos", icon="👤")
     st.page_link("pages/vagas.py", label="Vagas", icon="💼")
-    st.markdown("<br><br>---")
-    st.caption("Üorquin © 2024")
+    # Removido qualquer markdown manual para evitar erros de cache
 
-# 4. Área de Destaque (Título + Imagem Dinâmica)
-col_txt, col_img = st.columns([1.1, 1])
+# 4. Layout Superior
+col_txt, col_img = st.columns([1, 1.2])
 
 with col_txt:
-    st.markdown("<br><br><br>", unsafe_allow_html=True)
-    st.markdown("""
-        <div class='main-title'>
-            Conectando <span class='highlight'>talentos</span> às melhores oportunidades
-        </div>
-    """, unsafe_allow_html=True)
-    st.markdown("<p style='font-size: 18px; color: #475569;'>Simplificamos a conexão entre quem busca oportunidades e quem precisa de talento.</p>", unsafe_allow_html=True)
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("<h1 style='font-size: 44px; font-weight: 800;'>Conectando <span style='color: #22C55E;'>talentos</span> às melhores oportunidades</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 18px; color: #64748B;'>Simplificamos a conexão entre quem busca oportunidades e quem precisa de talento.</p>", unsafe_allow_html=True)
 
 with col_img:
-    st.markdown("<br>", unsafe_allow_html=True)
-    # LINHA DE BUSCA DA IMAGEM (Restaurada e Refatorada)
-    st.image("capa_prof.png", use_container_width=True)
-    
-    # Métrica flutuante (Vagas Ativas)
+    # Imagem ocupando mais espaço vertical
+    st.image("capa_prof.jpg", use_container_width=True)
+
+# 5. Cards de Ação (Ordem Invertida e Alinhada)
+st.markdown("<br><b>O que você deseja fazer hoje?</b>", unsafe_allow_html=True)
+c1, c2 = st.columns(2)
+
+with c1:
     st.markdown("""
-        <div style='display: flex; justify-content: flex-end; margin-top: -60px; margin-right: 20px;'>
-            <div style='background: white; padding: 15px; border-radius: 12px; border: 1px solid #F1F5F9; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);'>
-                <span style='color: #64748B; font-size: 12px;'>Vagas Ativas</span><br>
-                <span style='font-size: 20px; font-weight: bold;'>1.248</span>
+        <div class="custom-card">
+            <div>
+                <h3>📄 Cadastrar Currículo</h3>
+                <p style='color: #64748B;'>Seja visto por grandes empresas e impulsione sua carreira.</p>
             </div>
         </div>
     """, unsafe_allow_html=True)
+    if st.button("Ir para Cadastro ➡️", key="btn_cad", use_container_width=True):
+        st.switch_page("pages/candidatos.py")
 
-# 5. Seção de Ações (ORDEM INVERTIDA E SEM QUADRADOS)
-st.markdown("<br><br>", unsafe_allow_html=True)
-st.markdown("<b style='font-size: 20px;'>O que você deseja fazer hoje?</b>", unsafe_allow_html=True)
-st.markdown("<br>", unsafe_allow_html=True)
-
-col_curriculo, col_vagas = st.columns(2)
-
-with col_curriculo: # 1º CARD: CADASTRO
-    with st.container():
-        st.markdown("""
-            <div class='action-card'>
-                <h3 style='margin-top:0;'>📄 Cadastrar Currículo</h3>
-                <p style='color: #64748B;'>Seja visto por grandes empresas e dê o próximo passo na sua carreira.</p>
+with c2:
+    st.markdown("""
+        <div class="custom-card">
+            <div>
+                <h3>🔎 Buscar Vagas</h3>
+                <p style='color: #64748B;'>Encontre o match perfeito para o seu perfil profissional hoje mesmo.</p>
             </div>
-        """, unsafe_allow_html=True)
-        if st.button("Ir para Cadastro ➡️", key="btn_cad_final", use_container_width=True):
-            st.switch_page("pages/candidatos.py")
-
-with col_vagas: # 2º CARD: VAGAS
-    with st.container():
-        st.markdown("""
-            <div class='action-card'>
-                <h3 style='margin-top:0;'>🔎 Buscar Vagas</h3>
-                <p style='color: #64748B;'>Explore oportunidades e encontre o match perfeito para o seu perfil profissional.</p>
-            </div>
-        """, unsafe_allow_html=True)
-        if st.button("Explorar Vagas 🔍", key="btn_vagas_final", type="primary", use_container_width=True):
-            st.switch_page("pages/vagas.py")
+        </div>
+    """, unsafe_allow_html=True)
+    if st.button("Explorar Vagas 🔍", key="btn_vagas", type="primary", use_container_width=True):
+        st.switch_page("pages/vagas.py")
