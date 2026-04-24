@@ -31,7 +31,7 @@ st.markdown("""
 
         /* TAREFA 2: TÍTULO EM DUAS LINHAS - Controle de largura máxima */
         .main-title {
-            font-size: 48px;
+            font-size: 44px;
             font-weight: 800;
             line-height: 1.1;
             color: #1E293B;
