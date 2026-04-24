@@ -1,65 +1,110 @@
 import streamlit as st
-import gspread
-import requests
-import re
-from datetime import datetime
-from oauth2client.service_account import ServiceAccountCredentials
-from reportlab.lib.pagesizes import A4
-from reportlab.pdfgen import canvas
 
-# =========================
-# CONFIG
-# =========================
 st.set_page_config(page_title="Uorquin", layout="wide")
 
 # =========================
-# CSS PROFISSIONAL
+# CSS PROFISSIONAL HARDCORE
 # =========================
 st.markdown("""
 <style>
+
+/* BACKGROUND */
 .main {
-    background: linear-gradient(180deg, #f7f9fc 0%, #ffffff 100%);
+    background: #f5f7fb;
 }
 
-.block-container {
-    padding-top: 2rem;
-    max-width: 900px;
+/* SIDEBAR */
+section[data-testid="stSidebar"] {
+    background: #ffffff;
+    border-right: 1px solid #e5e7eb;
 }
 
-h1, h2, h3 {
+/* HEADER */
+.header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-size: 38px;
+    font-weight: 800;
     color: #1f2c4c;
 }
 
+.subtitle {
+    color: #6b7280;
+    font-size: 16px;
+}
+
+/* CARD */
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.05);
+}
+
+/* INPUT */
+input, .stTextInput>div>div>input {
+    border-radius: 10px !important;
+}
+
+/* BOTÕES */
 .stButton>button {
     width: 100%;
-    border-radius: 10px;
-    height: 48px;
+    border-radius: 12px;
+    height: 50px;
     font-weight: 600;
     background: #2563eb;
     color: white;
-    border: none;
-    transition: 0.3s;
 }
 
-.stButton>button:hover {
-    background: #1d4ed8;
+/* STEPPER */
+.stepper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
 }
 
-.card {
-    padding: 25px;
-    border-radius: 16px;
-    background: white;
-    box-shadow: 0px 4px 20px rgba(0,0,0,0.05);
+.step {
+    text-align: center;
+    flex: 1;
 }
+
+.circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #d1d5db;
+    margin: auto;
+    line-height: 30px;
+    color: white;
+    font-size: 14px;
+}
+
+.active {
+    background: #2563eb;
+}
+
+.line {
+    height: 3px;
+    background: #e5e7eb;
+    margin: 0 5px;
+    flex: 1;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
 # =========================
-# HEADER
+# SIDEBAR
 # =========================
-st.image("logo.png", width=180)
-st.markdown("<h2 style='text-align:center;'>Crie seu currículo profissional em poucos minutos</h2>", unsafe_allow_html=True)
-st.markdown("<p style='text-align:center; color:gray;'>Preencha seus dados e aumente suas chances de contratação</p>", unsafe_allow_html=True)
+st.sidebar.image("logo.png", width=140)
+st.sidebar.markdown("### Navegação")
+
+st.sidebar.page_link("portal.py", label="Portal")
+st.sidebar.page_link("pages/candidatos.py", label="Candidatos")
+st.sidebar.page_link("pages/vagas.py", label="Vagas")
 
 # =========================
 # CONTROLE
@@ -67,21 +112,42 @@ st.markdown("<p style='text-align:center; color:gray;'>Preencha seus dados e aum
 if "step" not in st.session_state:
     st.session_state.step = 1
 
-if "dados" not in st.session_state:
-    st.session_state.dados = {}
+# =========================
+# HEADER
+# =========================
+st.markdown('<div class="header">', unsafe_allow_html=True)
+st.image("logo.png", width=160)
+st.markdown('<div class="title">Crie seu currículo em poucos minutos</div>', unsafe_allow_html=True)
+st.markdown('<div class="subtitle">Preencha seus dados e aumente suas chances</div>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
 
 # =========================
-# PROGRESSO
+# STEPPER
 # =========================
-progress = st.session_state.step / 5
-st.progress(progress)
+steps = ["Dados", "Experiência", "Formação", "Cursos", "Final"]
+
+step_html = '<div class="stepper">'
+for i, s in enumerate(steps):
+    active = "active" if i+1 <= st.session_state.step else ""
+    step_html += f"""
+    <div class="step">
+        <div class="circle {active}">{i+1}</div>
+        <small>{s}</small>
+    </div>
+    """
+step_html += '</div>'
+
+st.markdown(step_html, unsafe_allow_html=True)
 
 # =========================
-# ETAPA 1
+# CARD PRINCIPAL
+# =========================
+st.markdown('<div class="card">', unsafe_allow_html=True)
+
+# =========================
+# STEP 1
 # =========================
 if st.session_state.step == 1:
-
-    st.markdown('<div class="card">', unsafe_allow_html=True)
 
     st.subheader("📌 Dados Pessoais")
 
@@ -92,46 +158,28 @@ if st.session_state.step == 1:
         cpf = st.text_input("CPF")
         telefone = st.text_input("Telefone")
         email = st.text_input("Email")
-        idade = st.number_input("Idade", 0, 100)
 
     with col2:
         endereco = st.text_input("Endereço")
         estado = st.selectbox("Estado", ["BA","SP","RJ","MG"])
         cidade = st.text_input("Cidade")
         salario = st.text_input("Pretensão salarial")
-        area = st.text_input("Área de interesse")
 
     st.markdown("---")
 
     if st.button("Continuar ➡️"):
-        st.session_state.dados["pessoais"] = {
-            "nome": nome,
-            "cpf": cpf,
-            "telefone": telefone,
-            "email": email,
-            "idade": idade,
-            "endereco": endereco,
-            "cidade": cidade,
-            "estado": estado,
-            "salario": salario,
-            "area": area
-        }
-
         st.session_state.step = 2
         st.rerun()
 
-    st.markdown('</div>', unsafe_allow_html=True)
-
 # =========================
-# ETAPA FINAL
+# STEP 2
 # =========================
 elif st.session_state.step == 2:
 
-    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.subheader("💼 Experiência")
 
-    st.subheader("🎯 Finalização")
-
-    objetivo = st.text_area("Fale um pouco sobre seus objetivos profissionais")
+    empresa = st.text_input("Empresa")
+    funcao = st.text_input("Função")
 
     col1, col2 = st.columns(2)
 
@@ -139,10 +187,19 @@ elif st.session_state.step == 2:
         st.session_state.step = 1
         st.rerun()
 
-    if col2.button("Finalizar Cadastro 🚀"):
+    if col2.button("Continuar ➡️"):
+        st.session_state.step = 3
+        st.rerun()
 
-        st.success("✅ Cadastro realizado com sucesso!")
+# =========================
+# STEP FINAL
+# =========================
+elif st.session_state.step == 5:
 
+    st.subheader("🎯 Finalizar")
+
+    if st.button("Finalizar Cadastro 🚀"):
+        st.success("Cadastro realizado com sucesso!")
         st.balloons()
 
-    st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
