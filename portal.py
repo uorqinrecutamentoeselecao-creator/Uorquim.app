@@ -3,104 +3,84 @@ import streamlit as st
 # 1. Configuração de Página
 st.set_page_config(page_title="Üorquin - Portal", layout="wide", initial_sidebar_state="expanded")
 
-# 2. CSS de Alta Precisão para organizar a Sidebar
+# 2. CSS "BLINDADO" (Forçando espaçamento e removendo sobreposição)
 st.markdown("""
     <style>
-        /* Limpeza do topo e margens */
+        /* Esconder header padrão */
         header {visibility: hidden;}
-        .block-container { padding-top: 0rem !important; }
 
-        /* --- ORGANIZAÇÃO DA SIDEBAR --- */
+        /* --- FORÇANDO A SIDEBAR A SE COMPORTAR --- */
         
-        /* Fundo branco e largura da sidebar */
-        [data-testid="stSidebar"] {
-            background-color: #ffffff !important;
-            border-right: 1px solid #f0f0f0;
+        /* 1. Criar um respiro no topo da sidebar para a logo não encavalar */
+        [data-testid="stSidebarContent"] {
+            padding-top: 2rem !important;
+            background-color: white !important;
         }
 
-        /* Ajuste do container da logo para não encavalar */
-        [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
-            gap: 0rem !important;
-            padding-top: 1rem;
+        /* 2. Estilizar o container da Logo */
+        .logo-box {
+            padding: 0px 20px 30px 20px; /* Margem inferior de 30px para afastar o menu */
+            display: block;
         }
 
-        /* Estilo da Logo */
-        .logo-container {
-            padding: 20px 20px 40px 20px;
+        /* 3. Ajustar os Links de Navegação (Menu) */
+        /* Isso seleciona os botões de navegação novos do Streamlit */
+        [data-testid="stSidebarNavItems"] {
+            padding-top: 20px !important;
         }
 
-        /* Estilização dos Links (Menu) */
-        /* Remove o padding padrão do nav do streamlit */
-        [data-testid="stSidebarNav"] {
-            padding-top: 0rem !important;
-        }
-
-        /* Ajusta cada item do menu */
-        div[data-testid="stSidebarNav"] ul li div a {
-            padding: 12px 20px !important;
-            margin: 4px 15px !important;
+        /* Estilo de cada item do menu */
+        [data-testid="stSidebarNavLink"] {
+            background-color: transparent !important;
             border-radius: 12px !important;
-            font-size: 16px !important;
-            font-weight: 500 !important;
-            color: #334155 !important;
-            transition: all 0.2s;
+            margin: 4px 12px !important;
+            padding: 10px 15px !important;
+            height: auto !important;
         }
 
-        /* Efeito de item Selecionado/Ativo (Fundo cinza claro arredondado) */
-        div[data-testid="stSidebarNav"] ul li div a[aria-current="page"] {
-            background-color: #F1F5F9 !important;
-            color: #0F172A !important;
+        /* Estilo do item ATIVO (igual à sua imagem) */
+        [data-testid="stSidebarNavLink"][aria-current="page"] {
+            background-color: #F1F3F9 !important; /* Cinza claro do print */
+            color: black !important;
         }
 
-        /* Hover para melhorar a experiência */
-        div[data-testid="stSidebarNav"] ul li div a:hover {
-            background-color: #F8FAFC !important;
-        }
-
-        /* Linha divisória fina e frase de efeito */
-        .sidebar-footer-container {
-            position: fixed;
-            bottom: 30px;
-            width: 100%;
-            padding: 0 30px;
-        }
-        
-        .footer-line {
-            border-top: 1px solid #E2E8F0;
-            margin-bottom: 20px;
-            width: 80%;
-        }
-
-        .footer-text {
-            color: #94A3B8;
+        /* 4. Rodapé da Sidebar */
+        .sidebar-footer {
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 1px solid #f0f0f0;
+            color: #8E9AAF;
             font-size: 14px;
-            line-height: 1.4;
         }
 
-        /* Esconder o ícone padrão de "setinha" do menu que o streamlit coloca às vezes */
-        [data-testid="stSidebarNav"] svg {
-            color: #64748B;
+        /* Ajuste para a logo não sumir/cortar */
+        [data-testid="stSidebar"] img {
+            max-width: 150px;
+            margin-bottom: 20px;
         }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. Sidebar Organizada
+# 3. Organização da Sidebar
 with st.sidebar:
-    # Usando um container div para a logo para controlar o respiro (espaçamento)
-    st.markdown('<div class="logo-container">', unsafe_allow_html=True)
-    st.image("logo.png", width=160) # Ajuste o caminho da sua logo aqui
+    # Logo dentro de uma div com classe para controle total de espaço
+    st.markdown('<div class="logo-box">', unsafe_allow_html=True)
+    st.image("logo.png") # Certifique-se de que o arquivo logo.png está na pasta
     st.markdown('</div>', unsafe_allow_html=True)
-    
-    # Navegação (O Streamlit cuida dos links se os arquivos estiverem na pasta /pages)
-    # Mas aqui garantimos que os nomes fiquem limpos
+
+    # Menu de Navegação
+    # Usando st.page_link para controle manual e evitar que o Streamlit bagunce
     st.page_link("portal.py", label="Portal", icon="🏠")
     st.page_link("pages/candidatos.py", label="Candidatos", icon="👤")
     st.page_link("pages/vagas.py", label="Vagas", icon="💼")
 
-    # Rodapé da Sidebar
-    st.markdown('<div style="margin-top: 40px; padding: 0 20px;"><hr style="opacity:0.3;"></div>', unsafe_allow_html=True)
-    st.markdown('<p style="padding: 0 25px; color: #94A3B8; font-size: 14px;">Conectando pessoas a oportunidades</p>', unsafe_allow_html=True)
+    # Texto de rodapé
+    st.markdown("""
+        <div class="sidebar-footer">
+            Conectando pessoas a<br>oportunidades
+        </div>
+    """, unsafe_allow_html=True)
 
-# 4. Conteúdo Principal (Apenas para visualização)
+# 4. Conteúdo Principal
 st.title("Conteúdo Principal")
-st.write("A barra lateral agora deve seguir o padrão de espaçamento da imagem.")
+st.write("Agora os elementos devem estar separados e organizados.")
