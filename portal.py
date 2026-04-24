@@ -1,137 +1,182 @@
 import streamlit as st
 
-# 1. Configuração de Página
+# CONFIG
 st.set_page_config(
-    page_title="Üorquin - Portal", 
-    layout="wide", 
+    page_title="Üorquin - Portal",
+    layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# 2. CSS Blindado (Corrigindo o espaçamento e a sobreposição)
+# CSS PROFISSIONAL
 st.markdown("""
-    <style>
-        /* Limpeza do Header e ajuste de margem superior */
-        header {visibility: hidden;}
-        .block-container {
-            padding-top: 2rem !important;
-        }
+<style>
+header {visibility: hidden;}
+.block-container {
+    padding-top: 2rem !important;
+}
 
-        /* --- SIDEBAR DESIGN (ALINHAMENTO COM A IMAGEM) --- */
-        
-        /* Cor de fundo e espaçamento do container da Sidebar */
-        [data-testid="stSidebarContent"] {
-            background-color: #ffffff !important;
-            padding-top: 1rem !important;
-        }
+/* SIDEBAR */
+[data-testid="stSidebarContent"] {
+    background-color: #ffffff !important;
+    padding-top: 1rem !important;
+}
 
-        /* Espaçamento customizado para a Logo (evita encavalar) */
-        .logo-container {
-            padding: 20px 20px 40px 20px;
-            display: flex;
-            justify-content: flex-start;
-        }
+.logo-container {
+    padding: 20px 20px 30px 20px;
+}
 
-        /* Links de Navegação */
-        [data-testid="stSidebarNavLink"] {
-            margin: 4px 15px !important;
-            border-radius: 12px !important;
-            padding: 12px 15px !important;
-            transition: 0.3s;
-        }
+[data-testid="stSidebarNavLink"] {
+    margin: 4px 15px !important;
+    border-radius: 12px !important;
+    padding: 12px 15px !important;
+    transition: 0.3s;
+}
 
-        /* Destaque do item selecionado (cinza claro da imagem) */
-        [data-testid="stSidebarNavLink"][aria-current="page"] {
-            background-color: #F1F3F9 !important;
-            font-weight: 600 !important;
-        }
+[data-testid="stSidebarNavLink"][aria-current="page"] {
+    background-color: #F1F3F9 !important;
+    font-weight: 600 !important;
+}
 
-        /* Rodapé da Sidebar */
-        .sidebar-footer {
-            margin-top: 60px;
-            padding: 0 30px;
-            border-top: 1px solid #f0f0f2;
-            padding-top: 20px;
-            color: #8E9AAF;
-            font-size: 14px;
-            line-height: 1.4;
-        }
+/* HERO */
+.main-title {
+    font-size: 46px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: #0F172A;
+}
 
-        /* --- CONTEÚDO PRINCIPAL --- */
-        .main-title {
-            font-size: 42px;
-            font-weight: 700;
-            line-height: 1.1;
-            color: #1E293B;
-            max-width: 500px;
-            margin-bottom: 20px;
-        }
+.subtitle {
+    font-size: 18px;
+    color: #64748B;
+    margin-top: 10px;
+}
 
-        .custom-card {
-            background-color: white;
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid #F1F5F9;
-            min-height: 180px;
-            margin-bottom: 10px;
-        }
-    </style>
+/* BOTÕES */
+.btn-primary button {
+    background-color: #22C55E;
+    color: white;
+    border-radius: 12px;
+    height: 50px;
+    font-weight: 600;
+}
+
+.btn-secondary button {
+    border-radius: 12px;
+    height: 50px;
+    font-weight: 600;
+}
+
+/* CARDS */
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    border: 1px solid #F1F5F9;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.05);
+}
+
+/* STATS */
+.stats {
+    background: #F8FAFC;
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+/* PROGRESSO */
+.progress-box {
+    background: #F8FAFC;
+    padding: 20px;
+    border-radius: 16px;
+}
+</style>
 """, unsafe_allow_html=True)
 
-# 3. Sidebar (Refatorada)
+# SIDEBAR
 with st.sidebar:
-    # Logo isolada em uma div para garantir o espaço
     st.markdown('<div class="logo-container">', unsafe_allow_html=True)
     st.image("logo.png", width=160)
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # Navegação limpa
     st.page_link("portal.py", label="Portal", icon="🏠")
     st.page_link("pages/candidatos.py", label="Candidatos", icon="👤")
     st.page_link("pages/vagas.py", label="Vagas", icon="💼")
 
-    # Frase de efeito no rodapé
     st.markdown("""
-        <div class="sidebar-footer">
-            Conectando pessoas a<br>oportunidades
-        </div>
+    <div style="margin-top:50px; padding:20px; color:#94A3B8; font-size:14px;">
+    Conectando pessoas a oportunidades
+    </div>
     """, unsafe_allow_html=True)
 
-# 4. Layout Principal (Refatorado com Colunas)
-col_txt, col_spacer, col_img = st.columns([1.2, 0.2, 1])
+# HERO
+col1, col2 = st.columns([1.2,1])
 
-with col_txt:
-    st.markdown("<br><br><br>", unsafe_allow_html=True)
+with col1:
     st.markdown("""
-        <div class='main-title'>
-            Conectando <span style='color: #22C55E;'>talentos</span> às melhores oportunidades
-        </div>
+    <div class='main-title'>
+        Conectando <span style='color:#22C55E;'>talentos</span><br>
+        às melhores oportunidades
+    </div>
     """, unsafe_allow_html=True)
-    st.markdown("<p style='font-size: 20px; color: #64748B;'>A plataforma inteligente que une profissionais qualificados às empresas que buscam excelência.</p>", unsafe_allow_html=True)
 
-with col_img:
-    # Espaço para a imagem de capa
+    st.markdown("<div class='subtitle'>A plataforma inteligente que une profissionais qualificados às empresas.</div>", unsafe_allow_html=True)
+
+    b1, b2 = st.columns(2)
+
+    with b1:
+        if st.button("Cadastrar currículo", use_container_width=True):
+            st.switch_page("pages/candidatos.py")
+
+    with b2:
+        if st.button("Buscar vagas", use_container_width=True):
+            st.switch_page("pages/vagas.py")
+
+with col2:
     st.image("capa_prof.png", use_container_width=True)
 
-# 5. Seção de Ação (Cards)
-st.markdown("<br><b>O que você deseja fazer hoje?</b>", unsafe_allow_html=True)
+# PROGRESSO + STATS
+st.markdown("<br>", unsafe_allow_html=True)
+c1, c2, c3, c4 = st.columns(4)
+
+with c1:
+    st.markdown("<div class='stats'><b>+45 mil</b><br>Profissionais</div>", unsafe_allow_html=True)
+
+with c2:
+    st.markdown("<div class='stats'><b>+2.500</b><br>Empresas</div>", unsafe_allow_html=True)
+
+with c3:
+    st.markdown("<div class='stats'><b>+8.900</b><br>Vagas</div>", unsafe_allow_html=True)
+
+with c4:
+    st.markdown("<div class='stats'><b>98%</b><br>Satisfação</div>", unsafe_allow_html=True)
+
+# AÇÕES
+st.markdown("<br><h4>O que você deseja fazer hoje?</h4>", unsafe_allow_html=True)
+
 c1, c2 = st.columns(2)
 
 with c1:
-    st.markdown("""
-        <div class="custom-card">
-            <h3 style='margin-top:0'>📄 Cadastrar Currículo</h3>
-            <p style="color: #64748B;">Destaque seu perfil para recrutadores e aumente suas chances.</p>
-        </div>
-    """, unsafe_allow_html=True)
-    if st.button("Ir para Cadastro ➡️", key="btn_cad", use_container_width=True):
+    if st.button("📄 Cadastrar Currículo", use_container_width=True):
         st.switch_page("pages/candidatos.py")
 
-with c2:
     st.markdown("""
-        <div class="custom-card">
-            <h3 style='margin-top:0'>🔎 Buscar Vagas</h3>
-            <p style="color: #64748B;">Encontre oportunidades filtradas por sua área de atuação.</p>
-        </div>
+    <div class="card">
+        Destaque seu perfil para recrutadores e aumente suas chances.
+    </div>
     """, unsafe_allow_html=True)
-    if st.button("Explorar Vagas 🔍", key="btn_vagas", use_container_width=True):
+
+with c2:
+    if st.button("🔎 Buscar Vagas", use_container_width=True):
         st.switch_page("pages/vagas.py")
+
+    st.markdown("""
+    <div class="card">
+        Encontre oportunidades filtradas por sua área de atuação.
+    </div>
+    """, unsafe_allow_html=True)
