@@ -145,13 +145,13 @@ st.markdown("<br>", unsafe_allow_html=True)
 c1, c2, c3, c4 = st.columns(4)
 
 with c1:
-    st.markdown("<div class='stats'><b>+45 mil</b><br>Profissionais</div>", unsafe_allow_html=True)
+    st.markdown("<div class='stats'><b>+2 mil</b><br>Profissionais</div>", unsafe_allow_html=True)
 
 with c2:
-    st.markdown("<div class='stats'><b>+2.500</b><br>Empresas</div>", unsafe_allow_html=True)
+    st.markdown("<div class='stats'><b>+20</b><br>Empresas</div>", unsafe_allow_html=True)
 
 with c3:
-    st.markdown("<div class='stats'><b>+8.900</b><br>Vagas</div>", unsafe_allow_html=True)
+    st.markdown("<div class='stats'><b>+150</b><br>Vagas</div>", unsafe_allow_html=True)
 
 with c4:
     st.markdown("<div class='stats'><b>98%</b><br>Satisfação</div>", unsafe_allow_html=True)
