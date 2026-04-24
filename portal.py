@@ -89,7 +89,7 @@ with col_img:
     st.markdown("<br><br>", unsafe_allow_html=True)
     # Tenta carregar a imagem profissional local (capa_prof.jpg)
     try:
-        st.image("capa_prof.jpg", use_container_width=True)
+        st.image("capa_prof.png", use_container_width=True)
     except:
         # Link de fallback para testes se você ainda não subiu a imagem
         st.image("https://image.replicate.delivery/pbxt/44910243/45b5-4556-91e6-42d8f7b538e1/image_6.png", use_container_width=True)
