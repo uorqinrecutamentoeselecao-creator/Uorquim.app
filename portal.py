@@ -1,165 +1,182 @@
 import streamlit as st
 
-st.set_page_config(layout="wide")
+# CONFIG
+st.set_page_config(
+    page_title="Üorquin - Portal",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-# CSS
+# CSS PROFISSIONAL
 st.markdown("""
 <style>
 header {visibility: hidden;}
-.block-container {padding-top: 2rem;}
-body {background-color: #F8FAFC;}
+.block-container {
+    padding-top: 2rem !important;
+}
+
+/* SIDEBAR */
+[data-testid="stSidebarContent"] {
+    background-color: #ffffff !important;
+    padding-top: 1rem !important;
+}
+
+.logo-container {
+    padding: 20px 20px 30px 20px;
+}
+
+[data-testid="stSidebarNavLink"] {
+    margin: 4px 15px !important;
+    border-radius: 12px !important;
+    padding: 12px 15px !important;
+    transition: 0.3s;
+}
+
+[data-testid="stSidebarNavLink"][aria-current="page"] {
+    background-color: #F1F3F9 !important;
+    font-weight: 600 !important;
+}
 
 /* HERO */
-.hero {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-}
-
-.hero-text {
-    max-width: 550px;
-}
-
-.hero h1 {
-    font-size: 48px;
+.main-title {
+    font-size: 46px;
     font-weight: 800;
-    color: #0F172A;
     line-height: 1.1;
+    color: #0F172A;
 }
 
-.hero span {color: #22C55E;}
-
-.hero p {
-    color: #64748B;
+.subtitle {
     font-size: 18px;
-    margin-top: 15px;
+    color: #64748B;
+    margin-top: 10px;
 }
 
 /* BOTÕES */
-.btn-group {
-    display: flex;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.btn-primary {
-    background: #22C55E;
+.btn-primary button {
+    background-color: #22C55E;
     color: white;
-    padding: 12px 20px;
     border-radius: 12px;
+    height: 50px;
     font-weight: 600;
-    text-align: center;
 }
 
-.btn-secondary {
-    border: 1px solid #E2E8F0;
-    padding: 12px 20px;
+.btn-secondary button {
     border-radius: 12px;
+    height: 50px;
     font-weight: 600;
-    text-align: center;
+}
+
+/* CARDS */
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    border: 1px solid #F1F5F9;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.05);
 }
 
 /* STATS */
-.stats-container {
-    display: flex;
-    gap: 20px;
-    margin-top: 40px;
-}
-
-.stat-box {
-    flex: 1;
-    background: #F1F5F9;
+.stats {
+    background: #F8FAFC;
     padding: 20px;
     border-radius: 16px;
     text-align: center;
 }
 
-/* AÇÕES */
-.section-title {
-    margin-top: 50px;
-    font-size: 22px;
-    font-weight: 600;
-}
-
-.actions {
-    display: flex;
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.action-card {
-    flex: 1;
-}
-
-.action-btn {
-    width: 100%;
-    border: 1px solid #E2E8F0;
-    padding: 12px;
-    border-radius: 12px;
-    text-align: center;
-    font-weight: 600;
-    background: white;
-}
-
-.action-desc {
-    margin-top: 10px;
+/* PROGRESSO */
+.progress-box {
+    background: #F8FAFC;
     padding: 20px;
-    border: 1px solid #F1F5F9;
     border-radius: 16px;
-    background: white;
-    color: #64748B;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# HERO COM COLUNAS (EVITA BUG)
-col1, col2 = st.columns([1.2, 1])
+# SIDEBAR
+with st.sidebar:
+    st.markdown('<div class="logo-container">', unsafe_allow_html=True)
+    st.image("logo.png", width=160)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    st.page_link("portal.py", label="Portal", icon="🏠")
+    st.page_link("pages/candidatos.py", label="Candidatos", icon="👤")
+    st.page_link("pages/vagas.py", label="Vagas", icon="💼")
+
+    st.markdown("""
+    <div style="margin-top:50px; padding:20px; color:#94A3B8; font-size:14px;">
+    Conectando pessoas a oportunidades
+    </div>
+    """, unsafe_allow_html=True)
+
+# HERO
+col1, col2 = st.columns([1.2,1])
 
 with col1:
     st.markdown("""
-    <h1>
+    <div class='main-title'>
         Conectando <span style='color:#22C55E;'>talentos</span><br>
         às melhores oportunidades
-    </h1>
+    </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("""
-    <p style='color:#64748B; font-size:18px;'>
-        A plataforma inteligente que une profissionais qualificados às empresas.
-    </p>
-    """, unsafe_allow_html=True)
+    st.markdown("<div class='subtitle'>A plataforma inteligente que une profissionais qualificados às empresas.</div>", unsafe_allow_html=True)
 
     b1, b2 = st.columns(2)
 
     with b1:
-        st.markdown("<div class='btn-primary'>Cadastrar currículo</div>", unsafe_allow_html=True)
+        if st.button("Cadastrar currículo", use_container_width=True):
+            st.switch_page("pages/candidatos.py")
 
     with b2:
-        st.markdown("<div class='btn-secondary'>Buscar vagas</div>", unsafe_allow_html=True)
+        if st.button("Buscar vagas", use_container_width=True):
+            st.switch_page("pages/vagas.py")
 
 with col2:
     st.image("capa_prof.png", use_container_width=True)
 
-# STATS
-st.markdown("""
-<div class="stats-container">
-    <div class="stat-box"><b>+45 mil</b><br>Profissionais</div>
-    <div class="stat-box"><b>+2.500</b><br>Empresas</div>
-    <div class="stat-box"><b>+8.900</b><br>Vagas</div>
-    <div class="stat-box"><b>98%</b><br>Satisfação</div>
-</div>
-""", unsafe_allow_html=True)
+# PROGRESSO + STATS
+st.markdown("<br>", unsafe_allow_html=True)
+c1, c2, c3, c4 = st.columns(4)
+
+with c1:
+    st.markdown("<div class='stats'><b>+45 mil</b><br>Profissionais</div>", unsafe_allow_html=True)
+
+with c2:
+    st.markdown("<div class='stats'><b>+2.500</b><br>Empresas</div>", unsafe_allow_html=True)
+
+with c3:
+    st.markdown("<div class='stats'><b>+8.900</b><br>Vagas</div>", unsafe_allow_html=True)
+
+with c4:
+    st.markdown("<div class='stats'><b>98%</b><br>Satisfação</div>", unsafe_allow_html=True)
 
 # AÇÕES
-st.markdown("<div class='section-title'>O que você deseja fazer hoje?</div>", unsafe_allow_html=True)
+st.markdown("<br><h4>O que você deseja fazer hoje?</h4>", unsafe_allow_html=True)
 
-col1, col2 = st.columns(2)
+c1, c2 = st.columns(2)
 
-with col1:
-    st.markdown("<div class='action-btn'>📄 Cadastrar Currículo</div>", unsafe_allow_html=True)
-    st.markdown("<div class='action-desc'>Destaque seu perfil para recrutadores.</div>", unsafe_allow_html=True)
+with c1:
+    if st.button("📄 Cadastrar Currículo", use_container_width=True):
+        st.switch_page("pages/candidatos.py")
 
-with col2:
-    st.markdown("<div class='action-btn'>🔎 Buscar Vagas</div>", unsafe_allow_html=True)
-    st.markdown("<div class='action-desc'>Encontre oportunidades filtradas.</div>", unsafe_allow_html=True)
+    st.markdown("""
+    <div class="card">
+        Destaque seu perfil para recrutadores e aumente suas chances.
+    </div>
+    """, unsafe_allow_html=True)
+
+with c2:
+    if st.button("🔎 Buscar Vagas", use_container_width=True):
+        st.switch_page("pages/vagas.py")
+
+    st.markdown("""
+    <div class="card">
+        Encontre oportunidades filtradas por sua área de atuação.
+    </div>
+    """, unsafe_allow_html=True)
