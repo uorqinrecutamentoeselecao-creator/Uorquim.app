@@ -88,7 +88,7 @@ with col_img:
     st.markdown("<br><br>", unsafe_allow_html=True)
     # IMAGEM PROFISSIONAL SALVA NO SEU GITHUB
     try:
-        st.image("capa_prof.jpg", use_container_width=True)
+        st.image("capa_prof.png", use_container_width=True)
     except:
         # Imagem de fallback caso você ainda não tenha subido o arquivo
         st.info("⚠️ Suba o arquivo 'capa_prof.jpg' para o GitHub para ver a imagem de capa profissional.")
