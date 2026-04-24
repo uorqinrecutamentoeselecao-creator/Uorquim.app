@@ -400,7 +400,7 @@ with left:
 # =========================
 # ETAPA FINAL
 # =========================
-    elif st.session_state.step == 5:
+elif st.session_state.step == 5:
 
     st.subheader("🎯 Objetivo")
     objetivo = st.text_area("Objetivo profissional")
