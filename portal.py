@@ -1,136 +1,74 @@
 import streamlit as st
 
-st.set_page_config(page_title="Uorquin", layout="wide")
+st.set_page_config(page_title="Üorquin - Portal", layout="wide", page_icon="🚀")
 
-# =========================
-# CSS PROFISSIONAL
-# =========================
+# CSS para visual profissional (IDÊNTICO AO MODELO)
 st.markdown("""
-<style>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+    html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
+    
+    [data-testid="stAppViewContainer"] { background-color: #F8FAFC; }
+    
+    .main-title { color: #1E293B; font-size: 42px; font-weight: 800; line-height: 1.2; }
+    .highlight { color: #22C55E; }
+    
+    .stButton > button {
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.2s;
+        border: 1px solid #E2E8F0;
+    }
+    
+    .stButton > button:hover {
+        border-color: #3B82F6;
+        color: #3B82F6;
+    }
 
-.main {
-    background: linear-gradient(180deg, #f7f9fc 0%, #ffffff 100%);
-}
-
-/* HERO */
-.hero {
-    text-align: center;
-    padding: 40px 20px;
-}
-
-.hero-title {
-    font-size: 48px;
-    font-weight: 800;
-    color: #1f2c4c;
-}
-
-.hero-subtitle {
-    font-size: 20px;
-    color: #6b7280;
-    margin-top: 10px;
-}
-
-/* BOTÕES */
-.stButton>button {
-    width: 100%;
-    border-radius: 12px;
-    height: 52px;
-    font-weight: 600;
-    font-size: 16px;
-    background: #2563eb;
-    color: white;
-    border: none;
-    transition: 0.3s;
-}
-
-.stButton>button:hover {
-    background: #1d4ed8;
-}
-
-/* CARDS */
-.card-home {
-    background: white;
-    padding: 35px;
-    border-radius: 18px;
-    text-align: center;
-    box-shadow: 0px 10px 30px rgba(0,0,0,0.06);
-    transition: 0.3s;
-    height: 220px;
-}
-
-.card-home:hover {
-    transform: translateY(-6px);
-}
-
-/* ICON */
-.icon {
-    font-size: 40px;
-    margin-bottom: 10px;
-}
-
-.footer {
-    text-align:center;
-    color:gray;
-    margin-top:40px;
-}
-
-</style>
+    div[data-testid="stVerticalBlock"] > div:has(div.card-home) {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        border: 1px solid #E2E8F0;
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+    </style>
 """, unsafe_allow_html=True)
 
-# =========================
-# HERO
-# =========================
-st.markdown('<div class="hero">', unsafe_allow_html=True)
+# Topo / Header
+col_txt, col_img = st.columns([1.2, 1])
 
-st.image("logo.png", width=200)
+with col_txt:
+    st.image("logo.png", width=120)
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<div class='main-title'>Conectando <span class='highlight'>talentos</span> às melhores oportunidades</div>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#64748B; font-size:18px;'>Encontre vagas que combinam com seu perfil ou cadastre seu currículo em poucos minutos.</p>", unsafe_allow_html=True)
+    
+    c1, c2 = st.columns([1, 1.2])
+    with c1:
+        if st.button("🔍 Buscar Vagas", type="primary", use_container_width=True):
+            st.switch_page("pages/vagas.py")
+    with c2:
+        if st.button("📝 Cadastrar Currículo", use_container_width=True):
+            st.switch_page("pages/candidatos.py")
 
-st.markdown('<div class="hero-title">Conectando talentos às melhores oportunidades</div>', unsafe_allow_html=True)
+with col_img:
+    st.image("https://img.freepik.com/fotos-gratis/mulher-negra-sorridente-trabalhando-no-laptop_23-2148472147.jpg")
 
-st.markdown('<div class="hero-subtitle">Encontre empregos ou contrate profissionais de forma rápida e inteligente</div>', unsafe_allow_html=True)
+st.markdown("<br><br><b>O que você deseja fazer hoje?</b>", unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)
+# Cards de Opção
+c_a, c_b = st.columns(2)
+with c_a:
+    with st.container(border=True):
+        st.markdown("### 🔎 Buscar Vagas")
+        st.write("Explore oportunidades na sua região e áreas de atuação.")
+        if st.button("Explorar agora", key="vagas_btn"):
+            st.switch_page("pages/vagas.py")
 
-# =========================
-# AÇÕES PRINCIPAIS
-# =========================
-col1, col2 = st.columns(2)
-
-with col1:
-    st.markdown("""
-    <div class="card-home">
-        <div class="icon">🔎</div>
-        <h3>Buscar Vagas</h3>
-        <p>Explore oportunidades na sua região e encontre o emprego ideal</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    if st.button("Ver Vagas"):
-        st.switch_page("pages/vagas.py")
-
-with col2:
-    st.markdown("""
-    <div class="card-home">
-        <div class="icon">📄</div>
-        <h3>Cadastrar Currículo</h3>
-        <p>Crie seu perfil e aumente suas chances de contratação</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    if st.button("Cadastrar Agora"):
-        st.switch_page("pages/candidatos.py")
-
-# =========================
-# PROVA / CONFIANÇA
-# =========================
-st.markdown("<br>", unsafe_allow_html=True)
-
-col1, col2, col3 = st.columns(3)
-
-col1.metric("Vagas disponíveis", "1.248+")
-col2.metric("Empresas parceiras", "320+")
-col3.metric("Candidatos cadastrados", "5.000+")
-
-# =========================
-# FOOTER
-# =========================
-st.markdown('<div class="footer">© 2026 Uorquin • Todos os direitos reservados</div>', unsafe_allow_html=True)
+with c_b:
+    with st.container(border=True):
+        st.markdown("### 📄 Cadastrar Currículo")
+        st.write("Seja visto pelas melhores empresas do mercado.")
+        if st.button("Fazer cadastro", key="cad_btn"):
+            st.switch_page("pages/candidatos.py")
