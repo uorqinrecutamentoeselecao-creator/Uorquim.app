@@ -75,7 +75,7 @@ with col_txt:
 
 with col_img:
     # Imagem ocupando mais espaço vertical
-    st.image("capa_prof.jpg", use_container_width=True)
+    st.image("capa_prof.png", use_container_width=True)
 
 # 5. Cards de Ação (Ordem Invertida e Alinhada)
 st.markdown("<br><b>O que você deseja fazer hoje?</b>", unsafe_allow_html=True)
