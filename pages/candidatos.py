@@ -432,7 +432,6 @@ elif st.session_state.step == 5:
 
         except Exception as e:
             st.error(f"Erro ao gerar PDF: {e}")
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # =========================
 # COLUNA DIREITA (DICAS)
